@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página com Som Autómato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            margin-top: 15px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bem-vindo à Página</h1>
+    <p>O sistema tenta reproduzir o som ao entrar.</p>
+    
+    <!-- Botão de segurança caso o navegador bloqueie o autoplay -->
+    <button id="playBtn">Tocar Som Manualmente</button>
+    <div id="status" class="status">A carregar som...</div>
+</div>
+
+<!-- Elemento de áudio com o ficheiro de som local -->
+<audio id="meuSom" src="som.mp3" preload="auto"></audio>
+
+<script>
+    const som = document.getElementById('meuSom');
+    const statusTxt = document.getElementById('status');
+    const playBtn = document.getElementById('playBtn');
+
+    // Função para tentar tocar o som
+    function tentarTocar() {
+        som.play()
+            .then(() => {
+                statusTxt.textContent = "Som reproduzido com sucesso!";
+            })
+            .catch((error) => {
+                statusTxt.textContent = "O navegador bloqueou o som automático. Clique no botão acima.";
+                console.log("Autoplay bloqueado:", error);
+            });
+    }
+
+    // Tenta tocar assim que a página carrega
+    window.addEventListener('DOMContentLoaded', tentarTocar);
+
+    // Permite tocar ao clicar no botão caso falhe
+    playBtn.addEventListener('click', () => {
+        som.play();
+        statusTxt.textContent = "Som iniciado pelo utilizador.";
+    });
+</script>
+
+</body>
+</html>
